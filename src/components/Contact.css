@@ -1,0 +1,213 @@
+.contact {
+  padding: 6rem 2rem;
+  background: var(--white);
+}
+
+.contact__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.contact__desc {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.contact__details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.contact__detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.contact__detail-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--cream);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--brown);
+}
+
+.contact__detail-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contact__detail-value {
+  display: block;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.contact__form-wrap {
+  background: #F5EFE6;
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 1px solid rgba(107,58,42,0.12);
+}
+
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form__group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a2519;
+}
+
+.form__group input,
+.form__group select,
+.form__group textarea {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid rgba(107,58,42,0.2);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #ffffff;
+  color: #1a1a1a;
+  transition: border-color 0.2s;
+  outline: none;
+  resize: vertical;
+}
+
+.form__group input:focus,
+.form__group select:focus,
+.form__group textarea:focus {
+  border-color: var(--brown);
+}
+
+.btn--full { width: 100%; justify-content: center; }
+
+.form__optional {
+  font-weight: 400;
+  color: #9a9a9a;
+  font-size: 0.8rem;
+  margin-left: 0.25rem;
+}
+
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.file-upload__input {
+  display: none;
+}
+
+.file-upload__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border: 1.5px dashed rgba(107,58,42,0.35);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #6B3A2A;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: border-color 0.2s, background 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-upload:hover .file-upload__btn {
+  border-color: #6B3A2A;
+  background: #fdf8f4;
+}
+
+.file-upload__hint {
+  font-size: 0.78rem;
+  color: #9a9a9a;
+}
+
+.contact__success {
+  text-align: center;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.contact__success-icon {
+  width: 64px;
+  height: 64px;
+  background: #4a2519;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.contact__success h3 { font-size: 1.5rem; color: #4a2519; }
+.contact__success p { color: #6b6b6b; }
+
+/* Submit button spinner */
+.btn__spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Disabled submit */
+.btn--primary:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .contact__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .form__row { grid-template-columns: 1fr; }
+}
+
+[data-theme="dark"] .contact__info .section__label { color: rgba(255,255,255,0.6); }
+[data-theme="dark"] .contact__info .section__title { color: #ffffff; }
+[data-theme="dark"] .contact__desc { color: rgba(255,255,255,0.65); }
+[data-theme="dark"] .contact__detail-value { color: #ffffff; }
+[data-theme="dark"] .contact__detail-label { color: rgba(255,255,255,0.55); }
