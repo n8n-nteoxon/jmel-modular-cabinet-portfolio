@@ -74,8 +74,16 @@ export default function Gallery() {
               }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setSelected(i)}
+              /* Dim selected item so the lightbox "takes" it visually */
+              animate={selected === i ? { opacity: 0.55 } : { opacity: 1 }}
             >
-              <img src={item.img} alt={item.label} />
+              {/* layoutId pairs this thumbnail with the lightbox image */}
+              <motion.img
+                layoutId={`gallery-img-${i}`}
+                src={item.img}
+                alt={item.label}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
               <motion.div
                 className="gallery__label"
                 initial={{ opacity: 0 }}
@@ -98,7 +106,7 @@ export default function Gallery() {
         </motion.p>
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox — layoutId on the image creates the shared-element morph */}
       <AnimatePresence>
         {selected !== null && (
           <motion.div
@@ -111,27 +119,30 @@ export default function Gallery() {
           >
             <motion.div
               className="gallery__lightbox-modal"
-              initial={{ scale: 0.82, opacity: 0, y: 40 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.82, opacity: 0, y: 40 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 26 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
               onClick={(e) => e.stopPropagation()}
               drag="y"
               dragConstraints={{ top: 0, bottom: 0 }}
               dragElastic={0.25}
               onDragEnd={(_, info) => { if (Math.abs(info.offset.y) > 90) setSelected(null) }}
             >
-              <img
+              {/* Same layoutId as the grid thumbnail — Framer Motion morphs between the two */}
+              <motion.img
+                layoutId={`gallery-img-${selected}`}
                 src={items[selected].img}
                 alt={items[selected].label}
                 className="gallery__lightbox-img"
+                transition={{ type: 'spring', stiffness: 280, damping: 28 }}
               />
+
               <div className="gallery__lightbox-footer">
                 <span className="gallery__lightbox-label">{items[selected].label}</span>
                 <span className="gallery__lightbox-hint">Drag or press Esc to close</span>
               </div>
 
-              {/* Prev / Next */}
               <button
                 className="gallery__lightbox-nav gallery__lightbox-nav--prev"
                 onClick={() => setSelected((selected - 1 + items.length) % items.length)}

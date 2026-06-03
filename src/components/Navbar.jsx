@@ -25,6 +25,7 @@ export default function Navbar({ theme, toggleTheme }) {
   const { scrollY } = useScroll()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [hoveredLink, setHoveredLink] = useState(null)
 
   useEffect(() => {
     const unsub = scrollY.on('change', (y) => setScrolled(y > 60))
@@ -58,7 +59,12 @@ export default function Navbar({ theme, toggleTheme }) {
 
         <ul className="navbar__links">
           {NAV_LINKS.map((link) => (
-            <li key={link}>
+            <li
+              key={link}
+              style={{ position: 'relative' }}
+              onMouseEnter={() => setHoveredLink(link)}
+              onMouseLeave={() => setHoveredLink(null)}
+            >
               <motion.button
                 className="navbar__link"
                 onClick={() => handleNav(link)}
@@ -68,6 +74,23 @@ export default function Navbar({ theme, toggleTheme }) {
               >
                 {link}
               </motion.button>
+
+              {/* Sliding underline indicator — shares one layoutId so it glides between links */}
+              {hoveredLink === link && (
+                <motion.div
+                  layoutId="nav-underline"
+                  style={{
+                    position: 'absolute',
+                    bottom: -2,
+                    left: '15%',
+                    right: '15%',
+                    height: 2,
+                    background: 'var(--brown, #6B3A2A)',
+                    borderRadius: 2,
+                  }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 34 }}
+                />
+              )}
             </li>
           ))}
         </ul>

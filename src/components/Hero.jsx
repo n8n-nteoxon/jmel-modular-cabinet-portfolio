@@ -20,13 +20,27 @@ const itemVariants = {
   },
 }
 
+/* Title words stagger — inherits hidden/visible from parent via variant propagation */
+const titleContainerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.11 } },
+}
+
+const wordVariants = {
+  hidden: { opacity: 0, y: 44, rotateX: -20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: { type: 'spring', stiffness: 220, damping: 20 },
+  },
+}
+
 export default function Hero() {
   const heroRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
 
-  // Parallax: image drifts up as user scrolls down
   const imgY = useTransform(scrollYProgress, [0, 1], ['0px', '140px'])
-  // Content fades out as user scrolls away
   const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
   const contentY = useTransform(scrollYProgress, [0, 0.55], ['0px', '-40px'])
 
@@ -55,8 +69,21 @@ export default function Hero() {
           Transforming Spaces with Smart Modular Cabinet Solutions.
         </motion.p>
 
-        <motion.h1 className="hero__title" variants={itemVariants}>
-          JMEL Modular Cabinet
+        {/* Word-by-word stagger via nested variant propagation */}
+        <motion.h1
+          className="hero__title"
+          variants={titleContainerVariants}
+          style={{ perspective: 600 }}
+        >
+          {['JMEL', 'Modular', 'Cabinet'].map((word) => (
+            <motion.span
+              key={word}
+              variants={wordVariants}
+              style={{ display: 'inline-block', marginRight: '0.25em' }}
+            >
+              {word}
+            </motion.span>
+          ))}
         </motion.h1>
 
         <motion.p className="hero__subtitle" variants={itemVariants}>
@@ -85,7 +112,6 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.button
         className="hero__scroll-indicator"
         onClick={() => scrollTo('about')}

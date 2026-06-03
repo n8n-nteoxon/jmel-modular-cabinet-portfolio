@@ -42,12 +42,29 @@ const containerVariants = {
   },
 }
 
+/* Card supports hidden → visible entrance AND hover state for child variant propagation */
 const cardVariants = {
   hidden: { opacity: 0, y: 44 },
   visible: {
     opacity: 1,
     y: 0,
     transition: { type: 'spring', stiffness: 240, damping: 22 },
+  },
+  hover: {
+    y: -8,
+    boxShadow: '0 20px 44px rgba(107,58,42,0.18)',
+    transition: { type: 'spring', stiffness: 300, damping: 20 },
+  },
+}
+
+/* Icon wiggles and scales when the parent card enters "hover" via variant propagation */
+const iconVariants = {
+  hidden: { rotate: 0, scale: 1 },
+  visible: { rotate: 0, scale: 1 },
+  hover: {
+    rotate: [0, -14, 14, -7, 0],
+    scale: 1.22,
+    transition: { type: 'spring', stiffness: 380, damping: 10, duration: 0.45 },
   },
 }
 
@@ -87,16 +104,14 @@ export default function Services() {
               key={title}
               className="service-card"
               variants={cardVariants}
-              whileHover={{
-                y: -8,
-                boxShadow: '0 20px 44px rgba(107,58,42,0.16)',
-                transition: { type: 'spring', stiffness: 300, damping: 20 },
-              }}
+              /* String variant propagates "hover" state down to iconVariants */
+              whileHover="hover"
               whileTap={{ scale: 0.97 }}
             >
-              <div className="service-card__icon">
+              {/* Icon inherits "hover" from parent via variant propagation */}
+              <motion.div className="service-card__icon" variants={iconVariants}>
                 <Icon />
-              </div>
+              </motion.div>
               <h3 className="service-card__title">{title}</h3>
               <p className="service-card__desc">{desc}</p>
             </motion.div>
